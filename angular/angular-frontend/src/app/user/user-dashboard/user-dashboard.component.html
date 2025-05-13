@@ -1,0 +1,14 @@
+<!-- src/app/user/user-dashboard/user-dashboard.component.html -->
+<div class="dashboard-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Личный кабинет</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Привет, {{ user?.username }}</p>
+      <p>Роли: {{ user?.roles }}</p>
+      <button mat-raised-button routerLink="/user/applications">Мои заявки</button>
+      <button mat-raised-button routerLink="/user/vacancies">Все вакансии</button>
+    </mat-card-content>
+  </mat-card>
+</div>

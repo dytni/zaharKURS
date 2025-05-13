@@ -1,0 +1,12 @@
+.vacancies-container {
+  padding: 20px;
+}
+
+mat-table {
+  width: 100%;
+  margin-top: 20px;
+}
+
+mat-header-cell {
+  text-transform: uppercase;
+}

@@ -1,0 +1,29 @@
+<!-- src/app/admin/vacancies/vacancies.component.html -->
+<h2>Вакансии</h2>
+<button mat-raised-button (click)="openDialog()">Добавить вакансию</button>
+<table mat-table [dataSource]="dataSource">
+  <ng-container matColumnDef="id">
+    <th mat-header-cell> ID </th>
+    <td mat-cell *matCellDef="let vacancy">{{ vacancy.id }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="title">
+    <th mat-header-cell> Название </th>
+    <td mat-cell *matCellDef="let vacancy">{{ vacancy.title }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell> Действия </th>
+    <td mat-cell *matCellDef="let vacancy">
+      <button mat-icon-button (click)="editVacancy(vacancy)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="deleteVacancy(vacancy.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

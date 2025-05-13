@@ -1,0 +1,13 @@
+.competency-row {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+mat-select, mat-form-field {
+  flex: 1;
+}
+
+button.mat-icon-button {
+  margin-left: 10px;
+}
