@@ -1,21 +1,17 @@
-<!-- src/app/user/applications/applications.component.html -->
 <h2>Мои заявки</h2>
-<table mat-table [dataSource]="dataSource">
-  <ng-container matColumnDef="vacancy">
-    <th mat-header-cell> Вакансия </th>
-    <td mat-cell *matCellDef="let app">{{ app.vacancy?.title }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="status">
-    <th mat-header-cell> Статус </th>
-    <td mat-cell *matCellDef="let app">{{ app.status }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="score">
-    <th mat-header-cell> Оценка </th>
-    <td mat-cell *matCellDef="let app">{{ app.totalScore }}</td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="['vacancy', 'status', 'score']"></tr>
-  <tr mat-row *matRowDef="let row; columns: ['vacancy', 'status', 'score'];"></tr>
+<table>
+  <thead>
+  <tr>
+    <th>Вакансия</th>
+    <th>Статус</th>
+    <th>Оценка</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let app of applications">
+    <td>{{ app.vacancyId }}</td>
+    <td>{{ app.status }}</td>
+    <td>{{ app.totalScore }}</td>
+  </tr>
+  </tbody>
 </table>

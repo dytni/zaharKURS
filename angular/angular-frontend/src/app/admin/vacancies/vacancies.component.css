@@ -1,7 +1,35 @@
-h2 {
-  margin: 20px;
+/* src/app/admin/vacancies/vacancies.component.css */
+.vacancies-container {
+  padding: 20px;
 }
 
-button {
-  margin: 10px;
+h2 {
+  margin-bottom: 20px;
+}
+
+.no-data {
+  text-align: center;
+  margin-top: 20px;
+  color: #888;
+}
+
+.vacancies-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.vacancy-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.vacancy-info span {
+  margin-right: 10px;
+}
+
+.vacancy-actions button {
+  margin-left: 5px;
 }

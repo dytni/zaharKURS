@@ -17,6 +17,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AuthGuard } from './auth.guard';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { SharedModule } from './shared/shared.module';
+import {AdminComponent} from "./admin/admin.component";
 
 @NgModule({
   declarations: [AppComponent],

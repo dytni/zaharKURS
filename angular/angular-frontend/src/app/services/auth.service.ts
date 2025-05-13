@@ -31,7 +31,7 @@ export class AuthService {
   }
 
   getCurrentUser(): Observable<UserDTO | null> {
-    return this.currentUserSubject.asObservable();
+    return this.currentUserSubject;
   }
 
   getRoles(): string[] | null {

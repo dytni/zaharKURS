@@ -2,9 +2,9 @@
 import { Component, OnInit } from '@angular/core';
 import { VacancyService } from '../../services/vacancy.service';
 import { VacancyDTO } from '../../models/vacancy-dto';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { VacancyDialogComponent } from '../vacancy-dialog/vacancy-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-vacancies',
@@ -12,12 +12,12 @@ import { VacancyDialogComponent } from '../vacancy-dialog/vacancy-dialog.compone
   styleUrls: ['./vacancies.component.css']
 })
 export class VacanciesComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'title', 'department', 'actions']; // Добавьте это
-  dataSource = new MatTableDataSource<VacancyDTO>(); // И это
+  vacancies: VacancyDTO[] = [];
 
   constructor(
     private vacancyService: VacancyService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -26,15 +26,45 @@ export class VacanciesComponent implements OnInit {
 
   loadVacancies() {
     this.vacancyService.getAll().subscribe(
-      (data) => (this.dataSource.data = data),
-      (error) => console.error('Ошибка:', error)
+      (data) => {
+        this.vacancies = data;
+        console.log('Полученные вакансии:', data);
+      },
+      (error) => {
+        console.error('Ошибка:', error);
+        this.snackBar.open('Не удалось загрузить вакансии', 'Закрыть', { duration: 3000 });
+      }
     );
   }
 
-  // Метод для открытия диалога
   openDialog(vacancy?: VacancyDTO) {
-    this.dialog.open(VacancyDialogComponent, {
+    const dialogRef = this.dialog.open(VacancyDialogComponent, {
       data: vacancy || { title: '', description: '', department: '', status: 'DRAFT' }
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadVacancies();
+      }
+    });
+  }
+
+  editVacancy(vacancy: VacancyDTO) {
+    this.openDialog(vacancy);
+  }
+
+  deleteVacancy(id: number) {
+    if (confirm('Удалить вакансию?')) {
+      this.vacancyService.delete(id).subscribe(
+        () => {
+          this.loadVacancies();
+          this.snackBar.open('Вакансия удалена', 'Закрыть', { duration: 3000 });
+        },
+        (error) => {
+          console.error('Ошибка:', error);
+          this.snackBar.open('Не удалось удалить вакансию', 'Закрыть', { duration: 3000 });
+        }
+      );
+    }
   }
 }

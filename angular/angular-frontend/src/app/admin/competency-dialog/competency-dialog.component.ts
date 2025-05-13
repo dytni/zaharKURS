@@ -10,24 +10,32 @@ import { CompetencyService } from '../../services/competency.service';
   styleUrls: ['./competency-dialog.component.css']
 })
 export class CompetencyDialogComponent implements OnInit {
-  form: CompetencyDTO; // Объявите это свойство
+  form: CompetencyDTO;
 
   constructor(
     public dialogRef: MatDialogRef<CompetencyDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: CompetencyDTO,
     private competencyService: CompetencyService
   ) {
-    this.form = data || { name: '' };
+    this.form = data || { name: '', description: '' };
   }
 
   ngOnInit(): void {}
 
   save() {
-    if (this.form.id) {
-      this.competencyService.update(this.form.id, this.form).subscribe(() => this.dialogRef.close());
-    } else {
-      this.competencyService.create(this.form).subscribe(() => this.dialogRef.close());
+    if (!this.form.name) {
+      alert('Название обязательно для заполнения');
+      return;
     }
+
+    const operation = this.form.id
+      ? this.competencyService.update(this.form.id, this.form)
+      : this.competencyService.create(this.form);
+
+    operation.subscribe({
+      next: () => this.dialogRef.close(),
+      error: (err) => console.error('Ошибка сохранения:', err)
+    });
   }
 
   onCancel() {

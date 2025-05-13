@@ -1,12 +1,10 @@
 // src/app/admin/candidates/candidates.component.ts
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CandidateService } from '../../services/candidate.service';
 import { CandidateDTO } from '../../models/candidate-dto';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
 import { CandidateDialogComponent } from '../candidate-dialog/candidate-dialog.component';
-import {MatSort} from "@angular/material/sort";
-import {MatPaginator} from "@angular/material/paginator";
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-candidates',
@@ -14,12 +12,12 @@ import {MatPaginator} from "@angular/material/paginator";
   styleUrls: ['./candidates.component.css']
 })
 export class CandidatesComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'fullName', 'email', 'actions'];
-  dataSource = new MatTableDataSource<CandidateDTO>();
+  candidates: CandidateDTO[] = [];
 
   constructor(
     private candidateService: CandidateService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -28,25 +26,27 @@ export class CandidatesComponent implements OnInit {
 
   loadCandidates() {
     this.candidateService.getAll().subscribe(
-      (candidates) => (this.dataSource.data = candidates),
-      (error) => console.error('Ошибка:', error)
+      (data) => {
+        this.candidates = data;
+        console.log('Полученные кандидаты:', data);
+      },
+      (error) => {
+        console.error('Ошибка:', error);
+        this.snackBar.open('Не удалось загрузить кандидатов', 'Закрыть', { duration: 3000 });
+      }
     );
   }
 
   openDialog(candidate?: CandidateDTO) {
     const dialogRef = this.dialog.open(CandidateDialogComponent, {
-      data: candidate || { fullName: '', email: '', phone: '' }
+      data: candidate || { fullName: '', email: '', phone: '', resume: '' }
     });
 
-    dialogRef.afterClosed().subscribe(() => this.loadCandidates());
-  }
-  // candidates.component.ts
-  @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadCandidates();
+      }
+    });
   }
 
   editCandidate(candidate: CandidateDTO) {
@@ -55,7 +55,16 @@ export class CandidatesComponent implements OnInit {
 
   deleteCandidate(id: number) {
     if (confirm('Удалить кандидата?')) {
-      this.candidateService.delete(id).subscribe(() => this.loadCandidates());
+      this.candidateService.delete(id).subscribe(
+        () => {
+          this.loadCandidates();
+          this.snackBar.open('Кандидат удален', 'Закрыть', { duration: 3000 });
+        },
+        (error) => {
+          console.error('Ошибка:', error);
+          this.snackBar.open('Не удалось удалить кандидата', 'Закрыть', { duration: 3000 });
+        }
+      );
     }
   }
 }

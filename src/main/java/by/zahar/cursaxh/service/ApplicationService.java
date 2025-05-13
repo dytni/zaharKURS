@@ -143,4 +143,5 @@ public class ApplicationService {
                 .map(a -> modelMapper.map(a, ApplicationResponseDTO.class))
                 .collect(Collectors.toList());
     }
+
 }

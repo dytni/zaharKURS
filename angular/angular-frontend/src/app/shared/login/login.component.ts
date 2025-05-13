@@ -20,7 +20,7 @@ export class LoginComponent {
       next: (user) => {
         ;
         this.auth.setCurrentUser(user);
-        if (user.roles.includes('ROLE_ADMIN')) {
+        if (user.roles.includes('ADMIN')) {
           this.router.navigate(['/admin']);
         } else {
           this.router.navigate(['/user']);

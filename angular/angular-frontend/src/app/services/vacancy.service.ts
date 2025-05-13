@@ -22,6 +22,9 @@ export class VacancyService {
   update(id: number, vacancy: VacancyDTO): Observable<void> {
     return this.http.put<void>(`${this.apiUrl}/${id}`, vacancy);
   }
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 
   // Получение всех вакансий
   getAll(): Observable<VacancyDTO[]> {

@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CandidateDTO } from '../../models/candidate-dto';
 import { CandidateService } from '../../services/candidate.service';
 import { CompetencyService } from '../../services/competency.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-candidate-dialog',
@@ -11,17 +12,24 @@ import { CompetencyService } from '../../services/competency.service';
   styleUrls: ['./candidate-dialog.component.css']
 })
 export class CandidateDialogComponent implements OnInit {
-  candidateForm: CandidateDTO;
-  competencies: any[] = []; // Объявите competencies
+  candidateForm: FormGroup;
+  competencies: any[] = [];
   allCompetencies: any[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<CandidateDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: CandidateDTO,
     private candidateService: CandidateService,
-    private competencyService: CompetencyService
+    private competencyService: CompetencyService,
+    private fb: FormBuilder
   ) {
-    this.candidateForm = data;
+    this.candidateForm = this.fb.group({
+      id: [data?.id],
+      fullName: [data?.fullName, Validators.required],
+      email: [data?.email, [Validators.required, Validators.email]],
+      phone: [data?.phone, Validators.required],
+      resume: [data?.resume]
+    });
   }
 
   ngOnInit(): void {
@@ -30,7 +38,6 @@ export class CandidateDialogComponent implements OnInit {
     );
   }
 
-  // Добавьте методы
   addCompetency() {
     this.competencies.push({ competencyId: 0, level: 1 });
   }
@@ -40,10 +47,23 @@ export class CandidateDialogComponent implements OnInit {
   }
 
   save() {
-    // Логика сохранения
+    if (this.candidateForm.valid) {
+      const candidateDTO = this.candidateForm.value;
+      if (candidateDTO.id) {
+        this.candidateService.update(candidateDTO.id, candidateDTO).subscribe(
+          () => this.dialogRef.close(true),
+          (error) => console.error('Ошибка:', error)
+        );
+      } else {
+        this.candidateService.create(candidateDTO).subscribe(
+          () => this.dialogRef.close(true),
+          (error) => console.error('Ошибка:', error)
+        );
+      }
+    }
   }
 
   onCancel() {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 }

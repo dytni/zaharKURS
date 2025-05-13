@@ -1,46 +1,40 @@
-<!-- src/app/admin/vacancy-dialog/vacancy-dialog.component.html -->
-<h1 mat-dialog-title>{{ vacancyForm.id ? 'Редактировать вакансию' : 'Добавить вакансию' }}</h1>
-<div mat-dialog-content>
-  <mat-form-field>
-    <mat-label>Название</mat-label>
-    <input matInput [(ngModel)]="vacancyForm.title" name="title" required>
-  </mat-form-field>
+<!-- Измененная секция требований -->
+<div class="requirements-section">
+  <h3>Требуемые компетенции</h3>
 
-  <mat-form-field>
-    <mat-label>Описание</mat-label>
-    <textarea matInput [(ngModel)]="vacancyForm.description" name="description"></textarea>
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-label>Отдел</mat-label>
-    <input matInput [(ngModel)]="vacancyForm.department" name="department" required>
-  </mat-form-field>
-
-  <!-- Требования -->
-  <div *ngFor="let req of requirements; let i = index" class="requirement-row">
-    <mat-form-field>
-      <mat-label>Компетенция</mat-label>
-      <mat-select [(ngModel)]="requirements[i].competencyId">
-        <mat-option *ngFor="let comp of allCompetencies" [value]="comp.id">
+  <div *ngFor="let req of vacancyForm.requirements; let i = index" class="requirement-item">
+    <div class="form-group">
+      <label>Компетенция</label>
+      <select
+        [(ngModel)]="vacancyForm.requirements[i]"
+        [compareWith]="compareCompetencies"
+        class="form-control"
+        name="competency_{{i}}"
+      >
+        <option [ngValue]="null" disabled>Выберите компетенцию</option>
+        <option
+          *ngFor="let comp of allCompetencies"
+          [ngValue]="comp"
+        >
           {{ comp.name }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+        </option>
+      </select>
+    </div>
 
-    <mat-form-field>
-      <mat-label>Уровень</mat-label>
-      <input matInput [(ngModel)]="requirements[i].level" type="number" min="1" max="5">
-    </mat-form-field>
-
-    <button mat-icon-button color="warn" (click)="removeRequirement(i)">
-      <mat-icon>delete</mat-icon>
+    <button
+      type="button"
+      class="btn btn-danger delete-btn"
+      (click)="removeRequirement(i)"
+    >
+      ×
     </button>
   </div>
 
-  <button mat-raised-button (click)="addRequirement()">Добавить требование</button>
-</div>
-
-<div mat-dialog-actions>
-  <button mat-button (click)="onCancel()">Отмена</button>
-  <button mat-button color="primary" (click)="save()">Сохранить</button>
+  <button
+    type="button"
+    class="btn btn-secondary"
+    (click)="addRequirement()"
+  >
+    Добавить компетенцию
+  </button>
 </div>

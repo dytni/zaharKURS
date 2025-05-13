@@ -1,29 +1,28 @@
 <!-- src/app/admin/competencies/competencies.component.html -->
-<h2>Компетенции</h2>
-<button mat-raised-button (click)="openDialog()">Добавить компетенцию</button>
-<table mat-table [dataSource]="dataSource">
-  <ng-container matColumnDef="id">
-    <th mat-header-cell> ID </th>
-    <td mat-cell *matCellDef="let comp">{{ comp.id }}</td>
-  </ng-container>
+<div class="competencies-container">
+  <h2>Список компетенций</h2>
+  <button mat-raised-button (click)="openDialog()">Добавить компетенцию</button>
 
-  <ng-container matColumnDef="name">
-    <th mat-header-cell> Название </th>
-    <td mat-cell *matCellDef="let comp">{{ comp.name }}</td>
-  </ng-container>
+  <div *ngIf="competencies.length === 0" class="no-data">
+    <p>Нет данных</p>
+  </div>
 
-  <ng-container matColumnDef="actions">
-    <th mat-header-cell> Действия </th>
-    <td mat-cell *matCellDef="let comp">
-      <button mat-icon-button (click)="editCompetency(comp)">
-        <mat-icon>edit</mat-icon>
-      </button>
-      <button mat-icon-button color="warn" (click)="deleteCompetency(comp.id)">
-        <mat-icon>delete</mat-icon>
-      </button>
-    </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+  <div *ngIf="competencies.length > 0" class="competencies-list">
+    <ul>
+      <li *ngFor="let competency of competencies" class="competency-item">
+        <div class="competency-info">
+          <span>ID: {{ competency.id }}</span>
+          <span>Название: {{ competency.name }}</span>
+        </div>
+        <div class="competency-actions">
+          <button mat-icon-button (click)="openDialog(competency)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteCompetency(competency.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

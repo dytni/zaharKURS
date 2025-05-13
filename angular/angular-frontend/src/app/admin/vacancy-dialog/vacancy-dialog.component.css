@@ -1,9 +1,67 @@
-.requirement-row {
-  display: flex;
-  gap: 10px;
-  margin: 10px 0;
+/* src/app/admin/vacancy-dialog/vacancy-dialog.component.css */
+.dialog-container {
+  padding: 20px;
+  min-width: 500px;
+  max-width: 700px;
 }
 
-mat-select, mat-form-field {
+.dialog-header {
+  margin-bottom: 25px;
+  color: #2c3e50;
+  font-size: 1.8rem;
+}
+
+.requirements-section {
+  margin-top: 25px;
+  padding-top: 15px;
+  border-top: 2px solid #ecf0f1;
+}
+
+.requirement-item {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 5px;
+}
+
+.requirement-item .form-group {
   flex: 1;
+  margin-bottom: 0;
+}
+
+.delete-btn {
+  font-size: 1.6rem;
+  padding: 0 10px;
+  line-height: 1;
+  background: #e74c3c;
+  color: white;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-btn:hover {
+  background: #c0392b;
+}
+
+.form-control {
+  transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.dialog-actions {
+  margin-top: 25px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
 }

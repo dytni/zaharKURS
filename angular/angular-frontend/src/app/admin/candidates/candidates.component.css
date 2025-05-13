@@ -1,12 +1,35 @@
+/* src/app/admin/candidates/candidates.component.css */
+.candidates-container {
+  padding: 20px;
+}
+
 h2 {
-  margin: 20px;
+  margin-bottom: 20px;
 }
 
-button {
-  margin: 10px;
-}
-
-mat-table {
-  width: 100%;
+.no-data {
+  text-align: center;
   margin-top: 20px;
+  color: #888;
+}
+
+.candidates-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.candidate-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.candidate-info span {
+  margin-right: 10px;
+}
+
+.candidate-actions button {
+  margin-left: 5px;
 }

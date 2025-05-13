@@ -6,6 +6,7 @@ import { ApplicationDTO } from '../models/application-dto';
 import { environment } from '../../environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {catchError} from "rxjs/operators";
+import {AuthService} from "./auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,7 @@ export class ApplicationService {
   }
   // Метод для получения заявок текущего пользователя
   getMyApplications(): Observable<ApplicationDTO[]> {
-    return this.http.get<ApplicationDTO[]>(`${this.apiUrl}/my`);
+    return this.http.get<ApplicationDTO[]>(`${this.apiUrl}`);
   }
 
   apply(candidateId: number, vacancyId: number): Observable<ApplicationDTO> {

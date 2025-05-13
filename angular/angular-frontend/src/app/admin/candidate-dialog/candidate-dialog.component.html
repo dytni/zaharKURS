@@ -1,48 +1,50 @@
 <!-- src/app/admin/candidate-dialog/candidate-dialog.component.html -->
-<h1 mat-dialog-title>{{ candidateForm.id ? 'Редактировать кандидата' : 'Добавить кандидата' }}</h1>
+<h1 mat-dialog-title>{{ candidateForm.controls['id'].value ? 'Редактировать кандидата' : 'Добавить кандидата' }}</h1>
 <div mat-dialog-content>
-  <mat-form-field>
-    <mat-label>ФИО</mat-label>
-    <input matInput [(ngModel)]="candidateForm.fullName" name="fullName" required>
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-label>Email</mat-label>
-    <input matInput [(ngModel)]="candidateForm.email" name="email" required>
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-label>Телефон</mat-label>
-    <input matInput [(ngModel)]="candidateForm.phone" name="phone" required>
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-label>Резюме</mat-label>
-    <textarea matInput [(ngModel)]="candidateForm.resume" name="resume"></textarea>
-  </mat-form-field>
-
-  <h3>Компетенции</h3>
-  <div *ngFor="let comp of competencies; let i = index" class="competency-row">
+  <form [formGroup]="candidateForm">
     <mat-form-field>
-      <mat-label>Компетенция</mat-label>
-      <mat-select [(ngModel)]="competencies[i].competencyId" name="competencyId">
-        <mat-option *ngFor="let option of allCompetencies" [value]="option.id">
-          {{ option.name }}
-        </mat-option>
-      </mat-select>
+      <mat-label>ФИО</mat-label>
+      <input matInput formControlName="fullName" required>
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Уровень</mat-label>
-      <input matInput [(ngModel)]="competencies[i].level" type="number" min="1" max="5">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" required>
     </mat-form-field>
 
-    <button mat-icon-button color="warn" (click)="removeCompetency(i)">
-      <mat-icon>delete</mat-icon>
-    </button>
-  </div>
+    <mat-form-field>
+      <mat-label>Телефон</mat-label>
+      <input matInput formControlName="phone" required>
+    </mat-form-field>
 
-  <button mat-raised-button (click)="addCompetency()">Добавить компетенцию</button>
+    <mat-form-field>
+      <mat-label>Резюме</mat-label>
+      <textarea matInput formControlName="resume"></textarea>
+    </mat-form-field>
+
+    <h3>Компетенции</h3>
+    <div *ngFor="let comp of competencies; let i = index" class="competency-row">
+      <mat-form-field>
+        <mat-label>Компетенция</mat-label>
+        <mat-select [(ngModel)]="competencies[i].competencyId" name="competencyId">
+          <mat-option *ngFor="let option of allCompetencies" [value]="option.id">
+            {{ option.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Уровень</mat-label>
+        <input matInput [(ngModel)]="competencies[i].level" type="number" min="1" max="5">
+      </mat-form-field>
+
+      <button mat-icon-button color="warn" (click)="removeCompetency(i)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+
+    <button mat-raised-button (click)="addCompetency()">Добавить компетенцию</button>
+  </form>
 </div>
 
 <div mat-dialog-actions>

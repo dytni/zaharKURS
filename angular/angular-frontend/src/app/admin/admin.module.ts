@@ -18,6 +18,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import {SharedModule} from "../shared/shared.module";
 import {FormsModule} from "@angular/forms";
+import {MatSelectModule} from "@angular/material/select";
+import {AdminComponent} from "./admin.component";
+import {AdminDashboardComponent} from "./admin-dashboard/admin-dashboard.component";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatListModule} from "@angular/material/list";
 
 @NgModule({
   declarations: [
@@ -26,6 +31,8 @@ import {FormsModule} from "@angular/forms";
     CompetenciesComponent,
     CandidateDialogComponent,
     VacancyDialogComponent,
+    AdminComponent,
+    AdminDashboardComponent,
     CompetencyDialogComponent
   ],
   imports: [
@@ -38,7 +45,10 @@ import {FormsModule} from "@angular/forms";
     MatIconModule,
     MatButtonModule,
     SharedModule,
-    FormsModule
+    FormsModule,
+    MatSelectModule,
+    MatSidenavModule,
+    MatListModule
   ]
 })
 export class AdminModule {}

@@ -20,8 +20,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/api/competencies/**", "/api/vacancies/**", "/api/candidates/**", "/api/applications/**")
-                        .hasRole("ADMIN")
+                        /*.requestMatchers("/api/competencies/**", "/api/vacancies/**", "/api/candidates/**", "/api/applications/**")
+                        .hasRole("ADMIN")*/
                         .anyRequest().permitAll()
                 )
                 .httpBasic(AbstractHttpConfigurer::disable)
