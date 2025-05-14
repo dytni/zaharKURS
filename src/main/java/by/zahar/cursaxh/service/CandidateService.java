@@ -43,7 +43,7 @@ public class CandidateService {
         String[] words = text.split("\\s+"); // Разделение по пробелам (включая множественные)
         num = words.length;
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        candidate.setResume(candidate.getResume() + "Дата создания: " + formatter.format(candidate.getCreatedAt()) + " : " + num + " слов.");
+        candidate.setResume(candidate.getResume() + "Дата создания: " + formatter.format(LocalDateTime.now()) + " : " + num + " слов.");
         return modelMapper.map(candidateRepo.save(candidate), CandidateDTO.class);
     }
     public CandidateDTO updateCandidate(CandidateDTO dto) {
