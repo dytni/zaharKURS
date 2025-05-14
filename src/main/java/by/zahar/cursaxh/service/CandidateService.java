@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,6 +35,19 @@ public class CandidateService {
     public CandidateDTO saveCandidate(CandidateDTO dto) {
         Candidate candidate = modelMapper.map(dto, Candidate.class);
         candidate.setCreatedAt(LocalDateTime.now());
+        int num;
+        String text = candidate.getResume();
+        if (text == null || text.trim().isEmpty()) {
+            num = 0;
+        }
+        String[] words = text.split("\\s+"); // Разделение по пробелам (включая множественные)
+        num = words.length;
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        candidate.setResume(candidate.getResume() + "Дата создания: " + formatter.format(candidate.getCreatedAt()) + " : " + num + " слов.");
+        return modelMapper.map(candidateRepo.save(candidate), CandidateDTO.class);
+    }
+    public CandidateDTO updateCandidate(CandidateDTO dto) {
+        Candidate candidate = modelMapper.map(dto, Candidate.class);
         return modelMapper.map(candidateRepo.save(candidate), CandidateDTO.class);
     }
 

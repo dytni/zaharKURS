@@ -33,7 +33,7 @@ public class CandidateController {
             @Valid @RequestBody CandidateDTO candidateDTO
     ) {
         candidateDTO.setId(id);
-        CandidateDTO updated = candidateService.saveCandidate(candidateDTO);
+        CandidateDTO updated = candidateService.updateCandidate(candidateDTO);
         return ResponseEntity.ok(updated);
     }
 
@@ -44,7 +44,6 @@ public class CandidateController {
         return ResponseEntity.noContent().build();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<CandidateDTO>> getAll() {
         List<CandidateDTO> candidates = candidateService.getAllCandidates();

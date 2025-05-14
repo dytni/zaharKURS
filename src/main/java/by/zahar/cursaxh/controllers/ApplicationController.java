@@ -52,11 +52,7 @@ public class ApplicationController {
         List<ApplicationResponseDTO> applications = applicationService.getAllApplications();
         return ResponseEntity.ok(applications);
     }
-    @GetMapping
-    public ResponseEntity<List<ApplicationResponseDTO>> getMy(@RequestParam String username) {
-        List<ApplicationResponseDTO> applications = applicationService.getMyApplications();
-        return ResponseEntity.ok(applications);
-    }
+
 
     // Получение заявки по ID
     @GetMapping("/{id}")
